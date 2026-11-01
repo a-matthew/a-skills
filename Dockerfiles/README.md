@@ -8,5 +8,5 @@ podman run --rm -it --name askillsagent \
   -e ELECTRON_OZONE_PLATFORM_HINT=wayland -e MOZ_ENABLE_WAYLAND=1 \
   -v askillsagent-home:/home/agent \
   -v askillsagent-workspaces:/workspaces \
-  -v "$HOME/askillsagent:/workspaces/myproj" \
+  -v "$HOME/askillsagent:/workspaces/main-workspace" \
   docker.io/library/askillsagent code

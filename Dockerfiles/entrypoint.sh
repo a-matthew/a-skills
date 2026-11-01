@@ -11,10 +11,10 @@ case "$command" in
     ((${#args[@]})) || args=(/workspaces)
     exec /usr/share/code/code --wait "${F[@]}" "${args[@]}"
     ;;
-  app)
+  copilot)
     exec copilot-app "${F[@]}" "$@"
     ;;
-  cli)
+  copilot-cli)
     exec copilot "$@"
     ;;
   browser)
