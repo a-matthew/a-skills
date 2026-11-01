@@ -1,0 +1,9 @@
+{
+    "chat.agent.enabled": true,
+    "chat.editing.autoAcceptDelay": 0,
+    "chat.tools.global.autoApprove": false,
+    "chat.tools.edits.autoApprove": {
+        "**/*": false
+    },
+    "chat.editing.confirmEditRequestRemoval": true
+}
