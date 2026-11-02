@@ -33,7 +33,9 @@ RUN mkdir -p /opt/Downloads && \
 #    --integrate "$HOME/Downloads/GitHub-Copilot-Desktop.AppImage" -y
 RUN cd /opt && /opt/Downloads/GitHub-Copilot-Desktop.AppImage --appimage-extract >/dev/null \
     && mv squashfs-root copilot-app \
-    && ln -s /opt/copilot-app/AppRun /usr/local/bin/copilot-app
+    && chmod -R a+rX /opt/copilot-app \
+    && printf '#!/bin/sh\nexec /opt/copilot-app/AppRun "$@"\n' > /usr/local/bin/copilot-app \
+    && chmod 755 /usr/local/bin/copilot-app
 
 # Install the official Visual Studio Code
 RUN tee /etc/yum.repos.d/vscode.repo > /dev/null <<EOF
@@ -52,12 +54,6 @@ RUN dnf -y install code \
 
 # Install GitHub Copilot CLI
 RUN curl -fsSL https://gh.io/copilot-install | PREFIX=/usr/local bash
-
-COPY --chmod=755 entrypoint.sh /usr/local/bin/entrypoint
-
-RUN useradd -m -U -u "${UID}" -s /bin/bash agent \
-    && mkdir -p /workspaces /mnt/share \
-    && chown agent:agent /workspaces /mnt/share
 
 # Install and set Firefox as the default
 RUN dnf install -y firefox xdg-utils && \
@@ -93,6 +89,16 @@ ENV BROWSER=firefox \
 
 # Set dark mode for everything in the container
 ENV GTK_THEME=Adwaita:dark
+
+# Session setup, incl. Terminal from Fedora Silverblue.
+# RUN dnf -y install dbus-daemon ptyxis && dnf clean all
+RUN dnf -y install foot && dnf clean all
+
+COPY --chmod=755 entrypoint.sh /usr/local/bin/entrypoint
+
+RUN useradd -m -U -u "${UID}" -s /bin/bash agent \
+    && mkdir -p /workspaces /mnt/share \
+    && chown agent:agent /workspaces /mnt/share
 
 USER agent
 WORKDIR /workspaces

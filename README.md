@@ -3,8 +3,8 @@
 ## Metadata
 <!-- - Author: {author-profile-name}/{author-alias}. -->
 - Name: 'A-Skills'.
-- Purpose: Enforcing agent skills (in a sandbox).
-- Format: Markdown / 'Agent Skills' framework.
+- Purpose: Enforcing agent skills in a windowed sandbox.
+- Format: Docker Container / 'Agent Skills' framework.
 - License:
   - This project's license: [GNU General Public License v3.0](LICENSE)
   <!-- - Dependency-1: [{dependency-name}({license-1-name})] -->
@@ -44,9 +44,13 @@
     - However, this option supports simple host-mirrored configuration of the IDE and support software, along with compatibility with immutable distributions and Flatpaks.
   - Podman (container)
     - In this mode the skills in this repository can be used inside a container. Podman may build the included .Dockerfile with dependencies for Visual Studio Code with GitHub Copilot extension, GitHub Copilot App, GitHub Copilot CLI.
-    - Most likely the ideal solution, as folders can be mounted directly to the container, while elevating the native Wayland display server.
+    - Most likely the ideal solution, as folders can be mounted directly to the container, while elevating the native Wayland display server. The concept offers supreme convenience at low risk.
     - This mode supports multiple entrypoints, e.g. `code`, `browser`, `copilot`, `copilot-cli`.
 
 ## Example
 ### Podman (container)
+Visual Studio Code instance before logging in, right after provisioning.
 ![A-Skills Agent container with Wayland passthrough](askillsagent-podman-wayland.png)
+
+Visual Studio Code instance after logging in, ready for work.
+![A-Skills Agent container with Wayland passthrough and fully configured](askillsagent-podman-wayland-configured.png)
