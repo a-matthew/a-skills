@@ -9,4 +9,7 @@ podman run --rm -it --name askillsagent \
   -v askillsagent-home:/home/agent \
   -v askillsagent-workspaces:/workspaces \
   -v "$HOME/askillsagent:/workspaces/main-workspace" \
+  -v "{host-path}/a-skills/.github:/workspaces/.github" \
+  -v "{host-path}/a-skills/AGENTS.md:/workspaces/AGENTS.md" \
+  -v "{host-path}/a-skills/CLAUDE.md:/workspaces/CLAUDE.md" \
   docker.io/library/askillsagent code
