@@ -1,3 +1,18 @@
+# ToC
+- [ToC](#toc)
+- [Podman](#podman)
+- [Extensions](#extensions)
+
+# Podman
+In order to start the container, first build the container using one of the Docker images under `Dockerfiles`.
+
+There are two types of images:
+- Claude Code based agent
+- Copilot based agent
+
+Subsequently, in order to run a built image, run Podman with the following command:
+
+```Bash
 podman run --rm -it --name askillsagent \
   --userns=keep-id:uid=1000,gid=1000 \
   --cap-drop=ALL --security-opt=no-new-privileges --security-opt label=disable \
@@ -13,3 +28,10 @@ podman run --rm -it --name askillsagent \
   -v "{host-path}/a-skills/AGENTS.md:/workspaces/AGENTS.md" \
   -v "{host-path}/a-skills/CLAUDE.md:/workspaces/CLAUDE.md" \
   docker.io/library/askillsagent code
+```
+Files may be dropped into the host's `$HOME/askillsagent` directory, or multiple different directories can be mounted under their own appropriate names.
+
+In this simple way entire working directories can be easily exposed to the agent ad-hoc, while making sure it does not crawl into every file of the host by default.
+
+# Extensions
+In order to adjust `vsc-settings.json` either have a look personally into the [SETTINGS.md](SETTINGS.md) file, where all up-to-date (more or less) settings for both Claude and Copilot are defined, or task the agent with updating it itself.

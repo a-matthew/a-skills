@@ -2,6 +2,7 @@
 name: style
 description: Enforce the general semantic style.
 ---
+<!-- This skills bundle has been generated using 'A-Skills' (https://github.com/a-matthew/a-skills). -->
 
 # Semantic
 - Limit answers to 4 sentences on the main topic whenever possible. Give extended answers only when the context requires it or when explicitly requested.
@@ -21,4 +22,6 @@ description: Enforce the general semantic style.
 - Read `.github/skills/style/Terraform.md` when working with Terraform files.
 - Read `.github/skills/style/Obsidian.md` when working with Obsidian files.
 - Read `.github/skills/style/Comment.md` when generating comments in any files.
-- Read `.github/skills/style/References.md` when generating references in any files.
+- Read `.github/skills/style/Reference.md` when generating references in any files.
+- Read `.github/skills/style/Codeowners.md` when working with the `CODEOWNERS` file in `git` repository.
+- Read `.github/skills/style/Changelog.md` when working with the `CHANGELOG.md` file in `git` repository.

@@ -11,12 +11,12 @@ command="${1:-code}"
 if (($# > 0)); then shift; fi
 
 case "$command" in
-  code)
+  copilot-vsc)
     args=("$@")
     ((${#args[@]})) || args=(/workspaces)
     exec /usr/share/code/code --wait "${F[@]}" "${args[@]}"
     ;;
-  copilot)
+  copilot-app)
     exec copilot-app "${F[@]}" "$@"
     ;;
   copilot-cli)
@@ -25,7 +25,7 @@ case "$command" in
   browser)
     exec firefox "$@"
     ;;
-  shell)
+  terminal)
     exec bash -l
     ;;
   *)
