@@ -1,4 +1,5 @@
 # Fedora
+# Build context is 'Dockerfiles/'
 FROM registry.fedoraproject.org/fedora:latest
 
 # There are 3 types of 'Copilot' apps
@@ -9,7 +10,7 @@ ARG UID=1000
 ARG COPILOT_APP_URL=https://github.com/github/app/releases/latest/download/GitHub-Copilot-linux-${ARCH}.AppImage
 
 # Install Flatpak (which is normally included OOB)
-RUN dnf -y install curl flatpak shadow-utils \
+RUN dnf -y install curl flatpak git shadow-utils \
     && dnf clean all
 
 # Enable Flatpak repositories
@@ -94,7 +95,7 @@ ENV GTK_THEME=Adwaita:dark
 # RUN dnf -y install dbus-daemon ptyxis && dnf clean all
 RUN dnf -y install foot && dnf clean all
 
-COPY --chmod=755 entrypoint.sh /usr/local/bin/entrypoint
+COPY --chmod=755 Copilot/entrypoint.sh /usr/local/bin/entrypoint
 
 RUN useradd -m -U -u "${UID}" -s /bin/bash agent \
     && mkdir -p /workspaces /mnt/share \
@@ -112,4 +113,4 @@ COPY --chown=agent:agent vsc-settings.json \
     /home/agent/.config/Code/User/settings.json
 
 ENTRYPOINT ["/usr/local/bin/entrypoint"]
-CMD ["code"]
+CMD ["copilot-vsc"]

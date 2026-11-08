@@ -28,13 +28,18 @@
     - `systemctl --user enable podman.socket`
     - `systemctl --user start podman.socket`
     - `systemctl status --user podman.socket`
-      - it should not be dead, but occassionally it embraces this state.
+      <details>
+      <summary>In case the socket is dead...</summary>
+
       - the command starts Podman Desktop (Flatpak) in CLI mode with an `ls` command to read the socket, the `spawn` command creates a test podman process.
       - `flatpak run --command=sh io.podman_desktop.PodmanDesktop -c \
   'ls -l $XDG_RUNTIME_DIR/podman/; flatpak-spawn --host podman --version'`
       - test if there any any stale connections using `podman system connection list`
       - if nothing seems wrong then congrats. Perhaps like myself you managed to spawn so many processes on the OS that system has random issues. I ocassionally experience this in GitKraken's [`"file watching failed to start for this repository"`](https://help.gitkraken.com/gitkraken-desktop/common-issues/#file-watching-failed-to-start) error, but also with Gnome system monitor's `"Unable to find default local file monitor type"`.
       - close some VSC instances, browser windows, or restart the host. Essentially increase `fs.inotify.max_user_watches` and `fs.inotify.max_user_instances`, per my [article](https://blog.amatthew.eu/diagnosing-podman-desktop).
+
+      </details>
+  - build image using Podman with `Dockerfiles/` as the context directory.
 
 ### Usage:
   - no-isolation

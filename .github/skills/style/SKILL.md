@@ -25,3 +25,4 @@ description: Enforce the general semantic style.
 - Read `.github/skills/style/Reference.md` when generating references in any files.
 - Read `.github/skills/style/Codeowners.md` when working with the `CODEOWNERS` file in `git` repository.
 - Read `.github/skills/style/Changelog.md` when working with the `CHANGELOG.md` file in `git` repository.
+- Read `.github/skills/style/Security.md` when resolving data protection issues in any file.

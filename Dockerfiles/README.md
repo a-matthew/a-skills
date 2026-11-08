@@ -27,7 +27,7 @@ podman run --rm -it --name askillsagent \
   -v "{host-path}/a-skills/.github:/workspaces/.github" \
   -v "{host-path}/a-skills/AGENTS.md:/workspaces/AGENTS.md" \
   -v "{host-path}/a-skills/CLAUDE.md:/workspaces/CLAUDE.md" \
-  docker.io/library/askillsagent code
+  docker.io/library/askillsagent copilot-vsc
 ```
 Files may be dropped into the host's `$HOME/askillsagent` directory, or multiple different directories can be mounted under their own appropriate names.
 
