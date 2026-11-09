@@ -17,10 +17,10 @@ case "$command" in
     exec /usr/share/code/code --wait "${F[@]}" "${args[@]}"
     ;;
   claude-app)
-    exec copilot-app "${F[@]}" "$@"
+    exec claude-desktop "${F[@]}" "$@"
     ;;
   claude-cli)
-    exec copilot "$@"
+    exec claude "$@"
     ;;
   browser)
     exec firefox "$@"

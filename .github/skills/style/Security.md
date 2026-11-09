@@ -4,4 +4,4 @@
 ## Semantic:
 
 ## Technical:
-- If during processing of the files you come across hardcoded Operator-specific variables, paths, confidential data - notify the Operator.
+- If, while processing files, you come across hardcoded Operator-specific variables, paths or confidential data, notify the Operator.

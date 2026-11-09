@@ -8,9 +8,11 @@ FROM registry.fedoraproject.org/fedora:latest
 ARG ARCH=x64
 ARG UID=1000
 ARG COPILOT_APP_URL=https://github.com/github/app/releases/latest/download/GitHub-Copilot-linux-${ARCH}.AppImage
+ARG REPOSITORY_VSC=https://packages.microsoft.com/yumrepos/vscode
 
 # Install Flatpak (which is normally included OOB)
-RUN dnf -y install curl flatpak git shadow-utils \
+# Auto-generated: 'openssl3-libs' lets VS Code 'vsce-sign' verify extension signatures, as Fedora 45+ ships only OpenSSL 4.
+RUN dnf -y install curl flatpak git openssl3-libs shadow-utils \
     && dnf clean all
 
 # Enable Flatpak repositories
@@ -97,6 +99,8 @@ RUN dnf -y install foot && dnf clean all
 
 COPY --chmod=755 Copilot/entrypoint.sh /usr/local/bin/entrypoint
 
+# Auto-generated: Run with '--userns=keep-id' so this UID maps to the host user and root inside the container is not root on the host.
+# Auto-generated: Only the folders chosen in 'podman run' are mounted, and '/run/user/1000' is an in-memory 'tmpfs'.
 RUN useradd -m -U -u "${UID}" -s /bin/bash agent \
     && mkdir -p /workspaces /mnt/share \
     && chown agent:agent /workspaces /mnt/share

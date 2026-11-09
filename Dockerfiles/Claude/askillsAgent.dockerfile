@@ -1,15 +1,16 @@
 # Fedora
 FROM registry.fedoraproject.org/fedora:latest
 
-# There are 3 types of 'Copilot' apps
-# https://github.com/features/copilot
+# There are 3 types of 'Claude Code' apps
+# https://code.claude.com/docs/en/setup
 
-ARG ARCH=x64
+ARG DEB_ARCH=amd64
 ARG UID=1000
-ARG COPILOT_APP_URL=https://github.com/github/app/releases/latest/download/GitHub-Copilot-linux-${ARCH}.AppImage
+ARG CLAUDE_DESKTOP_REPO=https://downloads.claude.ai/claude-desktop/apt/stable
 
 # Install Flatpak (which is normally included OOB)
-RUN dnf -y install curl flatpak shadow-utils \
+# Auto-generated: 'openssl3-libs' lets VS Code 'vsce-sign' verify extension signatures, as Fedora 45+ ships only OpenSSL 4.
+RUN dnf -y install curl dpkg flatpak openssl3-libs shadow-utils \
     && dnf clean all
 
 # Enable Flatpak repositories
@@ -22,20 +23,12 @@ RUN flatpak remote-add --system --if-not-exists flathub \
 #RUN flatpak install --system --noninteractive flathub \
 #    it.mijorus.gearlever
 
-# Download GitHub Copilot Desktop App (AppImage)
-RUN mkdir -p /opt/Downloads && \
-    curl -fL "$COPILOT_APP_URL" \
-    -o /opt/Downloads/GitHub-Copilot-Desktop.AppImage && \
-    chmod 755 /opt/Downloads/GitHub-Copilot-Desktop.AppImage
-
-# Integrate the AppImages
-#RUN flatpak run it.mijorus.gearlever \
-#    --integrate "$HOME/Downloads/GitHub-Copilot-Desktop.AppImage" -y
-RUN cd /opt && /opt/Downloads/GitHub-Copilot-Desktop.AppImage --appimage-extract >/dev/null \
-    && mv squashfs-root copilot-app \
-    && chmod -R a+rX /opt/copilot-app \
-    && printf '#!/bin/sh\nexec /opt/copilot-app/AppRun "$@"\n' > /usr/local/bin/copilot-app \
-    && chmod 755 /usr/local/bin/copilot-app
+# Download Claude Desktop App (Linux beta ships only as .deb, so it is extracted without apt)
+RUN mkdir -p /opt/Downloads \
+    && DEB_PATH=$(curl -fsSL "$CLAUDE_DESKTOP_REPO/dists/stable/main/binary-${DEB_ARCH}/Packages" \
+    | grep '^Filename: pool/main/c/claude-desktop/claude-desktop_' | sort -V | tail -n 1 | cut -d' ' -f2) \
+    && curl -fL "$CLAUDE_DESKTOP_REPO/$DEB_PATH" -o /opt/Downloads/claude-desktop.deb \
+    && dpkg-deb -x /opt/Downloads/claude-desktop.deb /
 
 # Install the official Visual Studio Code
 RUN tee /etc/yum.repos.d/vscode.repo > /dev/null <<EOF
@@ -52,8 +45,18 @@ EOF
 RUN dnf -y install code \
     && dnf clean all
 
-# Install GitHub Copilot CLI
-RUN curl -fsSL https://gh.io/copilot-install | PREFIX=/usr/local bash
+# Install Claude Code CLI
+RUN tee /etc/yum.repos.d/claude-code.repo > /dev/null <<EOF
+[claude-code]
+name=Claude Code
+baseurl=https://downloads.claude.ai/claude-code/rpm/stable
+enabled=1
+gpgcheck=1
+gpgkey=https://downloads.claude.ai/keys/claude-code.asc
+EOF
+
+RUN dnf -y install claude-code \
+    && dnf clean all
 
 # Install and set Firefox as the default
 RUN dnf install -y firefox xdg-utils && \
@@ -96,6 +99,8 @@ RUN dnf -y install foot && dnf clean all
 
 COPY --chmod=755 entrypoint.sh /usr/local/bin/entrypoint
 
+# Auto-generated: Run with '--userns=keep-id' so this UID maps to the host user and root inside the container is not root on the host.
+# Auto-generated: Only the folders chosen in 'podman run' are mounted, and '/run/user/1000' is an in-memory 'tmpfs'.
 RUN useradd -m -U -u "${UID}" -s /bin/bash agent \
     && mkdir -p /workspaces /mnt/share \
     && chown agent:agent /workspaces /mnt/share
@@ -105,8 +110,7 @@ WORKDIR /workspaces
 RUN code --no-sandbox \
     && mkdir -p /home/agent/.config/Code/User
 
-#--install-extension GitHub.copilot-chat \
-#--install-extension GitHub.copilot \    
+RUN code --install-extension anthropic.claude-code
 
 COPY --chown=agent:agent vsc-settings.json \
     /home/agent/.config/Code/User/settings.json
