@@ -14,7 +14,7 @@ case "$command" in
   copilot-vsc)
     args=("$@")
     ((${#args[@]})) || args=(/workspaces)
-    exec /usr/share/code/code --wait "${F[@]}" "${args[@]}"
+    exec /usr/share/code/code --wait "${F[@]}" --extensions-download-dir=/tmp/vsc-vsix "${args[@]}"
     ;;
   copilot-app)
     exec copilot-app "${F[@]}" "$@"

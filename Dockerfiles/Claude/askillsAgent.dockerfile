@@ -28,7 +28,8 @@ RUN mkdir -p /opt/Downloads \
     && DEB_PATH=$(curl -fsSL "$CLAUDE_DESKTOP_REPO/dists/stable/main/binary-${DEB_ARCH}/Packages" \
     | grep '^Filename: pool/main/c/claude-desktop/claude-desktop_' | sort -V | tail -n 1 | cut -d' ' -f2) \
     && curl -fL "$CLAUDE_DESKTOP_REPO/$DEB_PATH" -o /opt/Downloads/claude-desktop.deb \
-    && dpkg-deb -x /opt/Downloads/claude-desktop.deb /
+    && dpkg-deb -x /opt/Downloads/claude-desktop.deb / \
+    && rm -rf /opt/Downloads
 
 # Install the official Visual Studio Code
 RUN tee /etc/yum.repos.d/vscode.repo > /dev/null <<EOF
@@ -97,7 +98,7 @@ ENV GTK_THEME=Adwaita:dark
 # RUN dnf -y install dbus-daemon ptyxis && dnf clean all
 RUN dnf -y install foot && dnf clean all
 
-COPY --chmod=755 entrypoint.sh /usr/local/bin/entrypoint
+COPY --chmod=755 Claude/entrypoint.sh /usr/local/bin/entrypoint
 
 # Auto-generated: Run with '--userns=keep-id' so this UID maps to the host user and root inside the container is not root on the host.
 # Auto-generated: Only the folders chosen in 'podman run' are mounted, and '/run/user/1000' is an in-memory 'tmpfs'.
@@ -110,10 +111,12 @@ WORKDIR /workspaces
 RUN code --no-sandbox \
     && mkdir -p /home/agent/.config/Code/User
 
-RUN code --install-extension anthropic.claude-code
+# Auto-generated: VS Code keeps up to 20 downloaded '.vsix' packages, so the copy is removed in the same 'RUN' as the install.
+RUN code --install-extension anthropic.claude-code \
+    && rm -rf /home/agent/.config/Code/CachedExtensionVSIXs
 
 COPY --chown=agent:agent vsc-settings.json \
     /home/agent/.config/Code/User/settings.json
 
 ENTRYPOINT ["/usr/local/bin/entrypoint"]
-CMD ["code"]
+CMD ["claude-vsc"]

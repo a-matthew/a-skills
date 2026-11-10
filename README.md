@@ -3,7 +3,7 @@
 # A-Skills
 
 ## Metadata
-<!-- - Author: {author-profile-name}/{author-alias}. -->
+<!-- - Author: {author-name}/{author-alias}. -->
 - Name: 'A-Skills'.
 - Purpose: Enforcing agent skills in a windowed sandbox.
 - Format: Docker Container / Agent Skills framework.
@@ -100,11 +100,10 @@ The skills can be used in one of the following modes:
 Visual Studio Code instance before logging in, right after provisioning.
 ![A-Skills Agent container with Wayland passthrough](askillsagent-podman-wayland.png)
 
-Visual Studio Code instance after logging in, ready for work.
-![A-Skills Agent container with Wayland passthrough and fully configured](askillsagent-podman-wayland-configured.png)
+A Visual Studio Code instance after logging in, with user's `settings.json`.
+![A-Skills Copilot Agent container with Wayland passthrough and fully configured](askillsagent-podman-wayland-copilot.png)
 
-The agent only sees the folders mounted into the container.
-![A-Skills Agent limited to the mounted workspace](askillsagent-sandbox.png)
+![A-Skills Claude Agent container with Wayland passthrough and fully configured](askillsagent-podman-wayland-claude.png)
 
 ## Troubleshooting
 ### Podman socket

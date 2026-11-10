@@ -26,19 +26,20 @@ RUN flatpak remote-add --system --if-not-exists flathub \
 #    it.mijorus.gearlever
 
 # Download GitHub Copilot Desktop App (AppImage)
-RUN mkdir -p /opt/Downloads && \
-    curl -fL "$COPILOT_APP_URL" \
-    -o /opt/Downloads/GitHub-Copilot-Desktop.AppImage && \
-    chmod 755 /opt/Downloads/GitHub-Copilot-Desktop.AppImage
-
 # Integrate the AppImages
 #RUN flatpak run it.mijorus.gearlever \
 #    --integrate "$HOME/Downloads/GitHub-Copilot-Desktop.AppImage" -y
-RUN cd /opt && /opt/Downloads/GitHub-Copilot-Desktop.AppImage --appimage-extract >/dev/null \
+# Auto-generated: Download, extraction and removal of the AppImage share one 'RUN', so the AppImage is not kept in any image layer.
+RUN mkdir -p /opt/Downloads && \
+    curl -fL "$COPILOT_APP_URL" \
+    -o /opt/Downloads/GitHub-Copilot-Desktop.AppImage && \
+    chmod 755 /opt/Downloads/GitHub-Copilot-Desktop.AppImage \
+    && cd /opt && /opt/Downloads/GitHub-Copilot-Desktop.AppImage --appimage-extract >/dev/null \
     && mv squashfs-root copilot-app \
     && chmod -R a+rX /opt/copilot-app \
     && printf '#!/bin/sh\nexec /opt/copilot-app/AppRun "$@"\n' > /usr/local/bin/copilot-app \
-    && chmod 755 /usr/local/bin/copilot-app
+    && chmod 755 /usr/local/bin/copilot-app \
+    && rm -rf /opt/Downloads
 
 # Install the official Visual Studio Code
 RUN tee /etc/yum.repos.d/vscode.repo > /dev/null <<EOF

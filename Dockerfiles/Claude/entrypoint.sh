@@ -14,7 +14,7 @@ case "$command" in
   claude-vsc)
     args=("$@")
     ((${#args[@]})) || args=(/workspaces)
-    exec /usr/share/code/code --wait "${F[@]}" "${args[@]}"
+    exec /usr/share/code/code --wait "${F[@]}" --extensions-download-dir=/tmp/vsc-vsix "${args[@]}"
     ;;
   claude-app)
     exec claude-desktop "${F[@]}" "$@"
