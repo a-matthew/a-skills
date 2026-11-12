@@ -11,12 +11,12 @@
 
 ## Technical:
 - If the `CHANGELOG.md` file is missing and a template exists under the `.github/CHANGELOG_TEMPLATE` directory, then use it for creating the `CHANGELOG.md` file.
-- If a `CHANGELOG.md` file already exists and the compliant template also exists, then update the `CHANGELOG.md` file according to the template and the scope of changes in either the current commit, context window, or feature branch.
+- If a `CHANGELOG.md` file already exists and the compliant template also exists, then update the `CHANGELOG.md` file according to the template and the scope of changes in the current branch's commits.
 - If current changes are a part of a `git tag` not yet present on the remote, then use that tag as the `version` sub-header.
 - If such a tag does not exist, then treat all new changes as belonging to the `Unreleased` sub-header, which is put before the latest `version` sub-header.
 - The `Unreleased` sub-header uses the current date.
 - Should a `git tag` appear after the most recent `version`, the `Unreleased` changes are moved into that tag's sub-header (version).
-- The scope of project updates summarised in the file must reflect all commits in the current branch. Notify the Operator if there is a discrepancy.
+- The scope of project updates summarised in the file must reflect all commits in the current branch. Hence, notify the Operator if there is a discrepancy.
 - Do not update the `CHANGELOG.md` file if the current work branch is set to any of: `develop`, `dev`, `main`, `production`, `master`, `release`, or `develop/*`, `dev/*`, `main/*`, `production/*`, `master/*`, `release/*`, unless explicitly requested to do so.
 - If the current work branch is set to any of: `develop`, `dev`, `main`, `production`, `master`, `release`, or `develop/*`, `dev/*`, `main/*`, `production/*`, `master/*`, `release/*` and the `CHANGELOG.md` seems outdated, then point out this fact to the Operator and ask how to proceed.
 - If neither the `CHANGELOG.md` file nor a template under the `.github/CHANGELOG_TEMPLATE` directory exists, then do not create the file automatically, but rather point this out to the Operator and ask how to proceed.

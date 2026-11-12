@@ -3,8 +3,8 @@
 
 ## Semantic:
 - Use British English.
-- Use `bold` formatting for emphasis.
-- Use `italics` formatting for quotes or phrases.
+- Use `bold` formatting for emphasis on words, or specific important ideas in paragraphs.
+- Use additional `italics` formatting for quotes or phrases.
 - Use Markdown `highlights` formatting for proper nouns.
 
 ## Technical:
@@ -13,12 +13,12 @@
 - Use `Wikilinks` when referencing other INTERNAL files.
 - Use `Embeds` for images.
 - If the `Templates` folder contains a special file called `Callouts.md`, then always structure a new or currently edited file according to the `Callouts` defined in that file. Estimate which paragraphs belong under which `Callout`.
-- Always put `Callouts` under the paragraphs they refer to, unless the reference points to an item list. In such a case put them under the list in chronological order.
+- Always put `Callouts` under the paragraphs they refer to, unless they belong to an item list. In such a case, put them under the list in chronological order, as they cannot be placed directly under the list's individual items.
 - If the `Templates` folder contains a special file called `Properties.md`, then always define those properties in every new file, or adjust the existing files to follow the same convention.
-- If the `Templates` folder contains a special file called `Tags.md`, then only prefill appropriate properties read from `Properties.md` with tags from this file.
-- If the `Templates` folder contains a special file called `References.md`, then use the quotation system described in that file. Apply it towards quotations of technical facts (documentation) or statements.
+- If the `Templates` folder contains a special file called `Tags.md`, then only prefill appropriate file properties (as defined by the `Properties.md` template) with tags defined in the `Tags.md` file.
+- If the `Templates` folder contains a special file called `References.md`, then use the quotation system described in that file. Apply it to quotations of technical facts (documentation) or statements.
 - Every new or updated file is created with the file name's first letter being in `uppercase`.
-- If the `Templates` folder contains a special file called `Sync.md`, then use the `Obsidian Sync` rules defined inside. Apply those file naming conventions towards new or recently updated, but not pre-existing, files. Only apply these rules retroactively if asked by the Operator.
+- If the `Templates` folder contains a special file called `Sync.md`, then use the `Obsidian Sync` rules defined inside. Apply those file naming conventions towards new or actively updated files. Only apply these rules retroactively to pre-existing files if asked by the Operator.
 - Do not use `Comments` in Markdown files. Do not modify existing comments.
 - Do not use `Canvas`.
 - Do not use `Bases`.
