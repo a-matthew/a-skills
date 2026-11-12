@@ -1,0 +1,2 @@
+1. Regenerate the `SETTINGS.md` file in the same format as given, according to new information as listed out in the `References` header within.
+2. Arrange settings in `vsc-settings.json` file in chronological order in which they are listed out in the `SETTINGS.md` documentation file. Copilot entries are listed before Claude Code.
